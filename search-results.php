@@ -2,22 +2,24 @@
 
 require_once('header.php');
 
-//require_once('db.php');
+require ('db.php');
 
 //get the search term(s)
-$userSearch = $_POST['keywords'];
+if (!empty($_GET['keywords'])) {
+    $userSearch = $_GET['keywords'];
+}
 
 //split this into a list based on the spaces between each word
-$wordList = explode(' ', $userSearch);
+$wordList = explode(" ", $userSearch);
 
 //start the sql
 //can add connection here
 $sql = "SELECT * FROM racers WHERE ";
-$where = "";
+// $where = "";
 $counter = 0;
 
 foreach($wordList as $word) {
-    $sql .= " racerName LIKE ?";
+    $sql .= $userSearch . " LIKE ?";
     $wordList[$counter] = "%" . $word . "%";
     $counter++;
 
@@ -26,7 +28,7 @@ foreach($wordList as $word) {
     }
 }
 
-$sql = $sql . $where;
+$sql .= " ORDER BY title" ;
 
 $cmd = $conn->prepare($sql);
 $cmd->execute($wordList);

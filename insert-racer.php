@@ -28,11 +28,11 @@ if ($ok = true) {
 	$racerName = $_POST['racerName'];
 	$age = $_POST['age'];
 	$sex = $_POST['sex'];
-	$phoneNum = $_POST['phone'];
+	$phoneNum = $_POST['phoneNum']; // 9
 	$teamId = $_POST['teamId'];
 	
 	//form is good, so save to db
-	require_once('db.php');
+	require('db.php');
 	$sql = "INSERT INTO racers (racerName, age, sex, phoneNum, teamId) VALUES (:racerName, :age, :sex, :phoneNum, :teamId)";
 	$cmd = $conn->prepare($sql);
 	$cmd->bindParam(':racerName', $racerName, PDO::PARAM_STR, 50);

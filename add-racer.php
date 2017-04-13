@@ -25,24 +25,26 @@ require_once('header.php');
 	<input name="phoneNum" id="phoneNum" maxlength="15" required />
 </div>
 <div>
-	<select name="teamId">
+	<label for="teamId">Team</label>
+	<select name="teamId" id="teamId">
 		<?php
 			//connect to db to get list of teams
-			require_once('db.php');
+			require ('db.php');
 			$sql = "SELECT teamId, teamName FROM teams ORDER BY teamName";
 			$cmd = $conn->prepare($sql);
+			$cmd->execute(); // 7
 			$teams = $cmd->fetchAll();
 
 			//loop through results to create links to roster page
 			foreach ($teams as $team) {
-				echo '<option value="' . $team['id'] . '">' . $team['teamName'] . '</option>';
+				echo '<option value="' . $team['teamId'] . '">' . $team['teamName'] . '</option>'; 
 			}
 
 			$conn = null;
 		?>
 	</select>
 </div>
-<input type="button" value="Save" />
+<button>Save</button>
 
 </form>
 </body>

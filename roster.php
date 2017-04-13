@@ -1,4 +1,4 @@
-<?php ob_begin();  
+<?php ob_start(); // 3
 
 require_once('header.php');
 
@@ -7,9 +7,9 @@ require_once('header.php');
 if (is_numeric($_GET['teamId'])) {
     $teamId = $_GET['teamId'];
 	
-	require_once('db.php');
+	require ('db.php');
 
-	$sql = "SELECT racerName, age, sex, phoneNum FROM racers WHERE teamId = teamId ORDER BY racerName";
+	$sql = "SELECT racerName, age, sex, phoneNum FROM racers WHERE teamId = :teamId ORDER BY racerName"; // 4
 	$cmd = $conn->prepare($sql);
 	$cmd->bindParam(':teamId', $teamId, PDO::PARAM_INT);
 	$cmd->execute();
@@ -19,17 +19,16 @@ if (is_numeric($_GET['teamId'])) {
 		<tr><td>Racer</td>
 		<td>Age</td>
 		<td>Sex</td>
-		<td>Phone</td></tr>'
-	;
+		<td>Phone</td></tr>';
 
-	for each ($racers as $racer) {
+	foreach ($racers as $racer) { // 5
 		echo '<tr><td>' . $racer['racerName'] . '</td>
 			<td>' . $racer['age'] . '</td>
 			<td>' . $racer['sex'] . '</td>
 			<td>' . $racer['phoneNum'] . '</td></tr>';
-	}
+	};
 
-	$conn = null
+	$conn = null; // 6
 	echo '</table>';	
 }
 else {
